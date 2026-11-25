@@ -3,8 +3,8 @@
 //! a chat buffer per session, `*orchid-chat-<agent>-<wsdir>-<id5>*`, that follows the session's
 //! `events.jsonl` and sends with `orchid send`.
 //!
-//! It depends on die-core alone, so it's platform-neutral and out of the product: `cargo xtask
-//! lint` holds it to that, and it moves to its own repository at M4. Its parts:
+//! It depends on die-core alone, so it's platform-neutral and out of the product: a repository of
+//! its own, which your config installs beside DIE. Its parts:
 //!
 //! - this file: [`Orchid`], the extension, with your [`Options`] (C7), the session registry and its
 //!   status news, what a restart keeps, and the `orchid-*` commands and faces;

@@ -1,0 +1,11 @@
+# Copy to .cargo/config.toml (gitignored) to build and test against a checkout of DIE beside this
+# one, rather than DIE's crates from GitHub. Write each `/abs/path/to/...` out in full: cargo
+# doesn't expand `~`.
+[patch."https://github.com/0xDEADBEE7/die"]
+die-core = { path = "/abs/path/to/die/crates/die-core" }
+die-vim = { path = "/abs/path/to/die/crates/die-vim" }
+die-test-cap = { path = "/abs/path/to/die/tools/test-cap" }
+
+# Where the tests find DIE's fonts: a DIE checkout's fonts/, which `cargo xtask fonts` fills there.
+[env]
+DIE_FONT_DIR = "/abs/path/to/die/fonts"

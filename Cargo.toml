@@ -1,25 +1,35 @@
 [package]
 name = "die-orchid-client"
-description = "A port of your emacs-orchid-client: orchid's sessions and chats in DIE (scope D14)"
-version.workspace = true
-edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-publish.workspace = true
+description = "A port of your emacs-orchid-client: orchid's sessions and chats in DIE (DIE's scope D14)"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.95"
+license = "MIT OR Apache-2.0"
+publish = false
 
-# An extension, outside the product: it depends on die-core only, never on `die`, so it stays
-# platform-neutral (`cargo xtask lint` checks). It moves to its own repository at M4.
+# An extension, outside DIE: it depends on die-core only, never on `die`, so it stays
+# platform-neutral. DIE's crates come from git at `main`, so every repository in one build has
+# the same die-core; a local, gitignored `.cargo/config.toml` points them at a checkout of DIE
+# (dev-config.example.toml, README.md).
 [dependencies]
-die-core.workspace = true
-jiff.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-unicode-segmentation.workspace = true
-unicode-width.workspace = true
+die-core = { git = "https://github.com/0xDEADBEE7/die", branch = "main" }
+# Exact pins, as DIE's own `[workspace.dependencies]` has them.
+# Local time for the stubs, from the system's zoneinfo (no bundled database).
+jiff = { version = "=0.2.41", default-features = false, features = ["std", "tz-system", "tzdb-zoneinfo"] }
+serde = { version = "=1.0.228", features = ["derive"] }
+serde_json = "=1.0.149"
+unicode-segmentation = "=1.13.3"
+unicode-width = { version = "=0.2.2", default-features = false }
 
 [dev-dependencies]
-die-test-cap.workspace = true
-die-vim.workspace = true
+die-test-cap = { git = "https://github.com/0xDEADBEE7/die", branch = "main" }
+die-vim = { git = "https://github.com/0xDEADBEE7/die", branch = "main" }
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+# As DIE's: a panic's backtrace and no more, and optimized enough that a test of a long chat
+# isn't slow.
+[profile.test]
+opt-level = 1
+debug = "line-tables-only"
