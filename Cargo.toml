@@ -1,6 +1,6 @@
 [package]
 name = "die-orchid-client"
-description = "A port of your emacs-orchid-client: orchid's sessions and chats in DIE (DIE's scope D14)"
+description = "A port of emacs-orchid-client to DIE: orchid's session browser and chats, as an extension outside DIE"
 version = "0.0.0"
 edition = "2024"
 rust-version = "1.95"

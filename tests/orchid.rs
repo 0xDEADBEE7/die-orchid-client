@@ -1,6 +1,6 @@
 //! The real orchid, offline: that the client reads what orchid 0.2.2 writes, and that what it
 //! runs, orchid takes. Ignored, since it needs the binary: give it as `ORCHID_BIN`, as in
-//! `ORCHID_BIN=~/.local/bin/orchid cargo test -p die-orchid-client --test orchid -- --ignored`.
+//! `ORCHID_BIN=~/.local/bin/orchid cargo test --test orchid -- --ignored`.
 //! It runs in a process of its own with a HOME of its own and no `ORCHID_` variables, on a root
 //! of its own, with orchid's built-in `echo` connection: no network, no keys, and never your root.
 

@@ -1,10 +1,10 @@
 //! A chat on the real orchid, offline: a new session made through the chat, `hello` sent from it,
 //! the turn followed to its end from the files orchid writes, and a restart that brings the chat
-//! back from them, as `:rebuild` does. Ignored, since it needs the
-//! binary: `ORCHID_BIN=~/.local/bin/orchid cargo test -p die-orchid-client --test real_chat --
-//! --ignored`. As `tests/orchid.rs` does, it runs in a process of its own with a HOME of its own
-//! and no `ORCHID_` variables, on a root of its own, with orchid's built-in `echo` connection: no
-//! network, no keys, and never your root.
+//! back from them, as `:rebuild` does. Ignored, since it needs the binary:
+//! `ORCHID_BIN=~/.local/bin/orchid cargo test --test real_chat -- --ignored`. As `tests/orchid.rs`
+//! does, it runs in a process of its own with a HOME of its own and no `ORCHID_` variables, on a
+//! root of its own, with orchid's built-in `echo` connection: no network, no keys, and never your
+//! root.
 
 use die_test_cap as _;
 

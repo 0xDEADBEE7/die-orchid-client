@@ -1,14 +1,14 @@
 # die-orchid-client
 
-Your emacs-orchid-client, ported to [DIE](https://github.com/0xDEADBEE7/die) as an extension: orchid's session browser and a chat per session, laid out and keyed as they were in Emacs. It depends on die-core alone, so it's platform-neutral, and it's not part of DIE: a repository of its own that your config installs if you want it.
+The owner's emacs-orchid-client, ported to [DIE](https://github.com/0xDEADBEE7/die) as an extension: orchid's session browser and a chat per session, laid out and keyed as they were in Emacs. It depends on die-core alone, so it's platform-neutral, and it's not part of DIE: a repository of its own that your config installs if you want it.
 
 ## Use
 
-`\o`, or `M-x orchid`, is your emacs-orchid-client, ported as die-orchid-client: an extension outside DIE, in this repository, which your config registers and binds (see [installing it](#installing-it-in-your-config)). It drives orchid 0.2.2, your agent CLI, as Emacs does: `orchid` on the PATH your login shell sets (so `~/.local/bin/orchid` from DIE.app too), on orchid's own root, `$ORCHID_CONFIG` or else `~/.config/orchid`, passed to every command as `--config`. Its commands never inherit `ORCHID_SESSION_ID`, `ORCHID_CONFIG` or `ORCHID_HOOK_DEPTH`, so a DIE started from inside an orchid tool doesn't make its sessions children of that one. Emacs and DIE can be open on the same sessions at once: control goes through orchid, and its files are read without a lock, as orchid's own readers read them.
+`\o`, or `M-x orchid`, is emacs-orchid-client, ported as die-orchid-client: an extension outside DIE, in this repository, which a config registers and binds (see [installing it](#installing-it-in-your-config)). It drives orchid 0.2.2, the agent CLI it's a client of, as Emacs does: `orchid` on the PATH your login shell sets (so `~/.local/bin/orchid` from DIE.app too), on orchid's own root, `$ORCHID_CONFIG` or else `~/.config/orchid`, passed to every command as `--config`. Its commands never inherit `ORCHID_SESSION_ID`, `ORCHID_CONFIG` or `ORCHID_HOOK_DEPTH`, so a DIE started from inside an orchid tool doesn't make its sessions children of that one. Emacs and DIE can be open on the same sessions at once: control goes through orchid, and its files are read without a lock, as orchid's own readers read them.
 
-**The session browser**, `\o` or `M-x orchid`, shows `*orchid-sessions*` in this window, never a split, laid out as seek laid it out in Emacs: the title centred in `─`, the search line, the columns `LABEL`, `STATUS` and `UPDATED`, and a row per session, the one changed last first. It's 78 columns wide, or the window's width if that's less, and a row wider than the window wraps at a word, as your Emacs's `global-visual-line-mode` wrapped it there. LABEL is the session's label, or else its agent and workspace (`default-die`), or else its id. STATUS is `ACTIVE` while a chat is open on it and `IDLE` otherwise, with `•RUN` while it runs, wherever the turn was started, and `DEL` or `KILL` when it's marked. UPDATED says how long ago it last changed. The selected row is highlighted, and no cursor is drawn. A window shows as many rows as fit under the six lines above them, 20 at most, and `No results` when there are none.
+**The session browser**, `\o` or `M-x orchid`, shows `*orchid-sessions*` in this window, never a split, laid out as seek laid it out in Emacs: the title centred in `─`, the search line, the columns `LABEL`, `STATUS` and `UPDATED`, and a row per session, the one changed last first. It's 78 columns wide, or the window's width if that's less, and a row wider than the window wraps at a word, as the owner's Emacs, with `global-visual-line-mode`, wrapped it there. LABEL is the session's label, or else its agent and workspace (`default-die`), or else its id. STATUS is `ACTIVE` while a chat is open on it and `IDLE` otherwise, with `•RUN` while it runs, wherever the turn was started, and `DEL` or `KILL` when it's marked. UPDATED says how long ago it last changed. The selected row is highlighted, and no cursor is drawn. A window shows as many rows as fit under the six lines above them, 20 at most, and `No results` when there are none.
 
-It reads each session's `metadata.json` rather than running `orchid list`, so it opens at once, with times and order Emacs's never had. A status that changes redraws it, and while a window shows it, it reads the sessions again every 2 s, so a turn you started from Emacs shows too. When the list changes under it, the selection stays on its session. It's read-only, and `:rebuild` brings it back with its query, selection and marks. In normal state, as your Evil has its keys:
+It reads each session's `metadata.json` rather than running `orchid list`, so it opens at once, with times and order Emacs's never had. A status that changes redraws it, and while a window shows it, it reads the sessions again every 2 s, so a turn you started from Emacs shows too. When the list changes under it, the selection stays on its session. It's read-only, and `:rebuild` brings it back with its query, selection and marks. In normal state, as the owner's Evil has its keys:
 
 - `j` and `k` move down and up, `p` up too (in Emacs, Evil's `p` pasted there), and `J` and `K` a page.
 - `RET` opens the selected session's chat in this window, or goes to the one open on it, and kills the browser. `n` asks `Agent: ` among the valid agents and starts a chat on a new session in the browser's directory, the one of the buffer you opened it from; the browser stays. `q` kills it.
@@ -16,11 +16,11 @@ It reads each session's `metadata.json` rather than running `orchid list`, so it
 - `D` marks the session to delete (orchid archives it) and `S` to stop its turn, which only a running one has; each moves down. `u` takes the mark off. `x` asks `Execute N marked operation(s)? (yes or no)`, which wants `yes` or `no` typed out, in any case but with nothing around it, as `yes-or-no-p` does, so a bare `RET` asks again. Then it deletes and stops each in turn, in the order you marked them, keeps the marks that failed (`*Orchid Log*` says why), reads the sessions again and says what it did: `Deleted 1 session, Killed 1 process, 1 failed`.
 - `/` and `a` search: what you type filters the rows, its characters in that order, in any case, in the label, the status (`run` finds the running ones) or the time it changed. Every printable key goes into the query, `j` and `q` too. `DEL` takes one back, `RET` and `Esc` stop with the query kept, and `C-g` clears it. `d` clears it from normal state too, and goes back to the first row.
 
-**A chat**, `*orchid-chat-<agent>-<wsdir>-<id5>*`, opens in this window from the browser's `RET` or `M-x orchid-open-session`, laid out as your Emacs's: `Workspace:` and `Agent:`, a separator labelled with the workspace, the session's last 250 events, oldest first, each a collapsed 80-column stub with its tokens and local time (`[user]`, `[agnt]`, `[bash]`, `[read]`, `[edit]`, `[rslt]`, and `[fail]` and `[term]`, which Emacs showed as raw JSON), a separator before each of your messages, then `[session restored]` with the session's cumulative input, and your input under the last separator. It starts in normal state at the end, in the directory you opened it from (the browser's, for its `RET`), as Emacs's did, so `find-file` and `orchid-new-session` start there; `/new` goes by the session's. From there it follows the session, every 0.5 s while it runs and every 2 s otherwise, putting each new event in above the line that says how the turn is going. Its keys:
+**A chat**, `*orchid-chat-<agent>-<wsdir>-<id5>*`, opens in this window from the browser's `RET` or `M-x orchid-open-session`, laid out as the Emacs client's: `Workspace:` and `Agent:`, a separator labelled with the workspace, the session's last 250 events, oldest first, each a collapsed 80-column stub with its tokens and local time (`[user]`, `[agnt]`, `[bash]`, `[read]`, `[edit]`, `[rslt]`, and `[fail]` and `[term]`, which Emacs showed as raw JSON), a separator before each of your messages, then `[session restored]` with the session's cumulative input, and your input under the last separator. It starts in normal state at the end, in the directory you opened it from (the browser's, for its `RET`), as Emacs's did, so `find-file` and `orchid-new-session` start there; `/new` goes by the session's. From there it follows the session, every 0.5 s while it runs and every 2 s otherwise, putting each new event in above the line that says how the turn is going. Its keys:
 
 | Key | State | What it does |
 |---|---|---|
-| `RET` | insert | In your input, send it, trimmed, as `orchid send --id ID -- MSG`; an empty input sends nothing. Above the input, a newline. In normal state `RET` is Evil's, as in your Emacs. |
+| `RET` | insert | In your input, send it, trimmed, as `orchid send --id ID -- MSG`; an empty input sends nothing. Above the input, a newline. In normal state `RET` is Evil's, as in the owner's Emacs. |
 | `S-RET` | normal, insert | A newline. |
 | `TAB` | normal, insert | On a stub or its detail, expand or collapse it; a reply's or a tool call's detail is made the first time, and a result's files are sections of their own inside it. In your input, a tab, which in insert state is part of what `.` puts in again. Anywhere else it says what it's for. |
 | `/` | insert | Alone at the start of an input line, the slash menu, `/ `, which wants one of `config` (the find-file prompt at orchid's root), `exit  (quit)` (kill the chat), `kill` (`orchid stop`), `logs` and `metadata` (the session's files), or `new  (clear)` (a new session with this one's agent and directory). Anywhere else, a `/`. |
@@ -52,7 +52,7 @@ What else there is:
 
 ### What isn't there yet
 
-- In the session browser, insert and visual state have die-vim's keys, where your Emacs's browser keymap worked in insert state too.
+- In the session browser, insert and visual state have die-vim's keys, where the Emacs client's browser keymap worked in insert state too.
 - In a chat, Emacs's hover hints ("Press TAB to toggle"), and `M-p` and `M-n`, which did nothing there.
 - DIE's session file keeps a chat's whole text, as it keeps any buffer's that has no file, though a restart rebuilds the chat from `events.jsonl`: about 250 KB for 250 events, written about every 5 s while a turn runs.
 
@@ -80,9 +80,10 @@ keys.bind(State::Normal, "<leader>o", "orchid");
 
 ## Developing it beside DIE
 
-Until DIE's crates are fetched from GitHub, or to work on DIE and this together, build against a checkout of DIE beside this one. Copy `dev-config.example.toml` to `.cargo/config.toml`, which is gitignored, and write its `/abs/path/to/...` paths out in full, since cargo doesn't expand `~`. It patches die-core, die-vim and die-test-cap to the checkout's `crates/` and `tools/`, and sets `DIE_FONT_DIR`.
+DIE's crates come from [github.com/0xDEADBEE7/die](https://github.com/0xDEADBEE7/die) at `main`. To work on DIE and this together, build against a checkout of DIE beside this one instead. Copy `dev-config.example.toml` to `.cargo/config.toml`, which is gitignored, and write its `/abs/path/to/...` paths out in full, since cargo doesn't expand `~`. It patches die-core, die-vim and die-test-cap to the checkout's `crates/` and `tools/`, and sets `DIE_FONT_DIR`.
 
 ```sh
+mkdir -p .cargo
 cp dev-config.example.toml .cargo/config.toml   # then write its paths out
 cargo fmt --check
 cargo clippy --all-targets
@@ -93,7 +94,6 @@ DIE_UNSEEN=1 cargo test
 - `DIE_UNSEEN=1` keeps any DIE a test starts off your screen. These tests start none and open no window, so today it changes nothing here.
 - `tests/orchid.rs` and `tests/real_chat.rs` run the real orchid, offline, and are ignored without it: `ORCHID_BIN=~/.local/bin/orchid cargo test --test orchid -- --ignored`. `tests/perf.rs` times a long chat: `cargo test --test perf -- --ignored --nocapture`.
 - `rust-toolchain.toml` pins Rust 1.96.0 with rustfmt and clippy, for the checks; it builds with any Rust from `rust-version`, 1.95, up.
-- `Cargo.lock` isn't committed yet: with the dev config's path patches it records local paths.
 
 ## License
 

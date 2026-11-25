@@ -1,7 +1,6 @@
 //! What a long chat costs, measured: a session of about 2,000 events with big tool results, opened,
 //! followed while a turn streams, typed in, and kept in a session file. Ignored, as it times what it
-//! does and prints the figures: `cargo test -p die-orchid-client --test perf -- --ignored
-//! --nocapture`.
+//! does and prints the figures: `cargo test --test perf -- --ignored --nocapture`.
 
 use die_test_cap as _;
 
