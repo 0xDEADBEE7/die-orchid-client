@@ -80,11 +80,11 @@ keys.bind(State::Normal, "<leader>o", "orchid");
 
 ## Developing it beside DIE
 
-DIE's crates come from [github.com/0xDEADBEE7/die](https://github.com/0xDEADBEE7/die) at `main`. To work on DIE and this together, build against a checkout of DIE beside this one instead. Copy `dev-config.example.toml` to `.cargo/config.toml`, which is gitignored, and write its `/abs/path/to/...` paths out in full, since cargo doesn't expand `~`. It patches die-core, die-vim and die-test-cap to the checkout's `crates/` and `tools/`, and sets `DIE_FONT_DIR`.
+DIE's crates come from [github.com/0xDEADBEE7/die](https://github.com/0xDEADBEE7/die) at `main`. To work on DIE and this together, build against a checkout of DIE beside this one instead. Copy `dev-config.example.toml` to `.cargo/config.toml`, which is gitignored. Its paths are relative, for a DIE checkout beside this one (`../die`), and cargo reads them from this repository's root; change them if your checkout is elsewhere. It patches die-core, die-vim and die-test-cap to the checkout's `crates/` and `tools/`, and sets `DIE_FONT_DIR`.
 
 ```sh
 mkdir -p .cargo
-cp dev-config.example.toml .cargo/config.toml   # then write its paths out
+cp dev-config.example.toml .cargo/config.toml   # for a DIE checkout beside this one
 cargo fmt --check
 cargo clippy --all-targets
 DIE_UNSEEN=1 cargo test
