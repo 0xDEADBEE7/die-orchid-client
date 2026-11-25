@@ -10,13 +10,13 @@
 //! so its UPDATED said `N/A`, its order was the creation order, and `•RUN` showed only for a
 //! session whose chat had ticked (A1).
 //!
-//! Keys, in normal state, as your Emacs has them under Evil: `RET` open, `n` new, `q` quit, `r`
-//! and `g` refresh, `D` mark to delete, `S` mark to stop, `u` unmark, `x` run the marks, `/` and
-//! `a` search, `d` clear the search, `j` and `k` down and up, `J` and `K` a page, and `p` up,
-//! which Evil's list left out, so `p` pasted (B6). Searching is a second mode over the first,
-//! whose `<char>` takes every printable key, as the Emacs client's search map did after it put
-//! Evil in emacs state: what you type filters, chars in order, `DEL` takes one back, `RET` and
-//! `Esc` keep the query and stop, `C-g` clears it.
+//! Keys, in normal state, as the owner's Emacs has them under Evil: `RET` open, `n` new, `q` quit,
+//! `r` and `g` refresh, `D` mark to delete, `S` mark to stop, `u` unmark, `x` run the marks, `/`
+//! and `a` search, `d` clear the search, `j` and `k` down and up, `J` and `K` a page, and `p` up,
+//! which Evil's list left out, so `p` pasted (B6). Searching is a second mode over the first, whose
+//! `<char>` takes every printable key, as the Emacs client's search map did after it put Evil in
+//! emacs state: what you type filters, chars in order, `DEL` takes one back, `RET` and `Esc` keep
+//! the query and stop, `C-g` clears it.
 //!
 //! It stays current by itself: a session's status changing redraws it
 //! ([`Orchid::on_status_change`]), and while a window shows it, the shared poll's 2 s tick reads
@@ -482,10 +482,10 @@ fn tick(ctx: &mut Ctx, buf: BufferId) -> Result {
     }
 }
 
-/// Make `buf` the browser: read-only, its lines wrapped at words, no cursor drawn, no undo, and
-/// the mode on. The width and centering stay yours, as a file's. The browser mode's
-/// `truncate-lines` never held in your Emacs: `global-visual-line-mode` came on after it, so a
-/// row wider than the window wrapped at a word there too.
+/// Make `buf` the browser: read-only, its lines wrapped at words, no cursor drawn, no undo, and the
+/// mode on. The width and centering stay yours, as a file's. The browser mode's `truncate-lines`
+/// never held in the owner's Emacs: `global-visual-line-mode` came on after it, so a row wider than
+/// the window wrapped at a word there too.
 fn prepare(ctx: &mut Ctx, buf: BufferId) -> Result {
     ctx.change_settings(buf, |s| {
         (s.wrap, s.read_only, s.cursor_visible, s.undo_steps) = (Wrap::Word, true, false, 0);

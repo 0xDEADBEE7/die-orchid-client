@@ -485,8 +485,8 @@ fn a_narrower_window_draws_it_narrower_and_a_short_one_scrolls() {
         60,
         "the selected row fills the width"
     );
-    // Narrower than the columns: their line wraps at a word, as your Emacs's visual-line-mode
-    // wrapped it, and nothing is lost.
+    // Narrower than the columns: their line wraps at a word, as the owner's Emacs's
+    // visual-line-mode wrapped it, and nothing is lost.
     h.set_window_size(40, 24);
     let screen = lines(&mut h);
     assert_eq!(
@@ -523,7 +523,7 @@ fn a_narrower_window_draws_it_narrower_and_a_short_one_scrolls() {
 }
 
 #[test]
-fn a_row_wider_than_the_window_wraps_at_a_word_as_your_emacs_did() {
+fn a_row_wider_than_the_window_wraps_at_a_word_as_emacs_did() {
     let root = TempRoot::new("browser-wrap");
     let (mut h, _) = harness(&root, &FakeRunner::new());
     session(&root, "s-a", Some("default-other-proj"), "running", 14 * 60);

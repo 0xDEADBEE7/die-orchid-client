@@ -1,11 +1,11 @@
 //! A chat on a stand-in for orchid, `tests/fake-orchid`, a POSIX sh script run by its absolute path
-//! through the real runner, as your orchid is run: a new session through `orchid-new-session` and
-//! its `Agent: ` prompt, a message sent and its echo followed in until the indicator finishes, a
-//! send orchid refuses, a `/kill` that hangs until the timeout stops it and what it started, and the
-//! session archived. Along the way: the PATH the child gets, stdout apart from stderr, exit codes,
-//! and the `ORCHID_` variables an orchid tool that started DIE would leave, which the child never
-//! sees. It runs in a process of its own, with a HOME of its own and those variables set, since
-//! the environment is the process's. Neither your orchid nor your login shell runs.
+//! through the real runner, as the real orchid is run: a new session through `orchid-new-session`
+//! and its `Agent: ` prompt, a message sent and its echo followed in until the indicator finishes,
+//! a send orchid refuses, a `/kill` that hangs until the timeout stops it and what it started, and
+//! the session archived. Along the way: the PATH the child gets, stdout apart from stderr, exit
+//! codes, and the `ORCHID_` variables an orchid tool that started DIE would leave, which the child
+//! never sees. It runs in a process of its own, with a HOME of its own and those variables set,
+//! since the environment is the process's. Neither the real orchid nor the login shell runs.
 
 use die_test_cap as _;
 

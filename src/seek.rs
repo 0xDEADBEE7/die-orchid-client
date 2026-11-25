@@ -1,7 +1,7 @@
-//! seek, your scrollable, searchable list browser (`seek.el`, not published), which the
-//! Emacs client's session browser draws through: a browser's state in, styled lines out, with
-//! no buffer and no window of its own, so the width and the height come in too, where seek read
-//! them from the selected window (and orchid swapped in a fake `window-width` to clamp it).
+//! seek, the owner's scrollable, searchable list browser for Emacs (`seek.el`, not published),
+//! which the Emacs client's session browser draws through: a browser's state in, styled lines out,
+//! with no buffer and no window of its own, so the width and the height come in too, where seek
+//! read them from the selected window (and orchid swapped in a fake `window-width` to clamp it).
 //!
 //! The layout is seek's `seek-render`:
 //!

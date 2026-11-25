@@ -1,7 +1,7 @@
 //! Sessions for tests, written by hand in the shapes orchid 0.2.2's `src/model.rs` defines, never
 //! copied from real data, and only under a root a test made ([`TempRoot`]). With
-//! [`crate::Orchid::for_tests`] and a [`crate::cli::FakeRunner`], a test never reaches your
-//! `~/.config/orchid` nor runs your orchid.
+//! [`crate::Orchid::for_tests`] and a [`crate::cli::FakeRunner`], a test never reaches the real
+//! `~/.config/orchid` nor runs the real orchid.
 //!
 //! A chat is driven as orchid drives it: append lines to `events.jsonl` ([`append`]) and rewrite
 //! `metadata.json` ([`Meta::write`], by a rename as orchid does), then move the harness's clock.

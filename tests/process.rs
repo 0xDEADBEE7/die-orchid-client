@@ -2,7 +2,7 @@
 //! PATH it's found on, `--config` first, stdout apart from stderr, exit codes, the directory it
 //! runs in, the environment it doesn't inherit, and its timeout. These run in a process of their
 //! own, since the environment is the process's: a HOME of their own, and the `ORCHID_` variables
-//! an orchid tool that started DIE would leave. Neither your orchid nor your login shell runs.
+//! an orchid tool that started DIE would leave. Neither the real orchid nor the login shell runs.
 
 use die_test_cap as _;
 

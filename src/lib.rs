@@ -1,7 +1,9 @@
-//! die-orchid-client: your emacs-orchid-client, ported to DIE as an extension (scope D14). It
-//! drives orchid 0.2.2, your agent CLI, as Emacs did: a session browser, `*orchid-sessions*`, and
-//! a chat buffer per session, `*orchid-chat-<agent>-<wsdir>-<id5>*`, that follows the session's
-//! `events.jsonl` and sends with `orchid send`.
+//! die-orchid-client: a client for orchid 0.2.2 (<https://github.com/0xDEADBEE7/orchid>), a
+//! command-line tool for LLM conversations, as a DIE extension. It ports emacs-orchid-client, the
+//! owner's Emacs client for orchid, which isn't published, and drives orchid as that did: a session
+//! browser, `*orchid-sessions*`, and a chat buffer per session,
+//! `*orchid-chat-<agent>-<wsdir>-<id5>*`, that follows the session's `events.jsonl` and sends with
+//! `orchid send`.
 //!
 //! It depends on die-core alone, so it's platform-neutral and out of the product: a repository of
 //! its own, which your config installs beside DIE. Its parts:
@@ -13,8 +15,8 @@
 //! - [`parse`]: events as the chat shows them, with tokens and local times;
 //! - [`poll`]: the one timer every orchid buffer shares;
 //! - [`log`]: `*Orchid Log*`;
-//! - [`browser`] and [`chat`]: the two kinds of buffer, the browser drawn by [`seek`], your list
-//!   browser, and a chat's collapsible [`sections`] and its processing [`indicator`];
+//! - [`browser`] and [`chat`]: the two kinds of buffer, the browser drawn by [`seek`], the owner's
+//!   Emacs list browser, and a chat's collapsible [`sections`] and its processing [`indicator`];
 //! - [`fixtures`]: sessions for tests, by hand.
 //!
 //! Nothing here reads or runs anything at registration or init. The config root is worked out
@@ -107,7 +109,7 @@ pub fn test_zone() -> TimeZone {
 // ------------------------------------------------------------------ faces
 
 /// The faces orchid uses, by name. Each is declared with a parent, so a theme that styles only
-/// the base faces still draws it as your Emacs did.
+/// the base faces still draws it as the owner's Emacs did.
 pub mod face {
     pub use crate::parse::face::*;
     /// The separators (`orchid-chat-separator-face`).
@@ -240,7 +242,7 @@ impl Orchid {
     }
 
     /// For tests: the root is `root`, a temporary directory, orchid is `runner`, and times are
-    /// in [`test_zone`]. Nothing reaches your own root or runs your orchid.
+    /// in [`test_zone`]. Nothing reaches the real root or runs the real orchid.
     pub fn for_tests(root: &Path, runner: FakeRunner) -> Orchid {
         let options = Options {
             root: Some(root.to_path_buf()),
